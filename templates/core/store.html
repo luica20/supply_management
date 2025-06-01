@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container text-center pt-2">
+        <h3 class="text-center mb-4 text-success pb-4">List of Available Stores</h3>
+        <div class="row">
+            {% for store in stores %}
+                <div class="col-sm-4 col-md-3 mb-3">
+                    <div class="card h-100">
+                        <img  height="40" src="/static/img/IconAS.png" class="card-img-top p-2 img-fluid img-thumbnail" alt="{{ store.name }}">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ store.name }}</h3>
+                            <p class="card-text">
+                                <i class="bi bi-signpost-2"></i> {{ store.street|truncatechars:100 }}
+                            </p>
+                            <p class="card-text">
+                               <i class="bi bi-phone"></i> {{ store.phone }}
+                            </p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{% url 'store_products' store.id %}" class="btn btn-warning w-100">Enter the Store</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

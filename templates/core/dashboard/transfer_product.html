@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Transfer of Products</h2>
+        <form method="post" class="container">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary">Transfer Now</button>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <a href="{% url 'store_dashboard' %}" class="btn btn-secondary">← Return to Stock</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100">
+                        <img src="{% static product.image.url %}" class="card-img-top" alt="{{ product.image.url }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text"><strong>Precio:</strong> {{ product.price }}</p>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button type="button" class="btn btn-primary add-to-cart" data-id="{{ product.id }}"
+                                    data-store="{{ store.id }}">
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".add-to-cart").click(function () {
+                var productId = $(this).data("id");
+                var storeId = $(this).data("store");
+
+                $.ajax({
+                    url: "/add-to-cart/" + productId + "/" + storeId + "/",
+                    type: "GET",
+                    success: function (response) {
+                        $("#cart-count").text(response.count_cart);
+                    },
+                    error: function () {
+                        alert("Hubo un error al agregar el producto al carrito.");
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

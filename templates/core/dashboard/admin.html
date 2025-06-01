@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p class="text-end">
+        <a class="btn btn-danger" href="{% url 'load_products' %}">Load Initial Test Data</a>
+    </p>
+    <div class="container mt-2">
+        <h2>Dashboard Admins</h2>
+
+        {% for delivery in pending_deliveries %}
+            <tr>
+                <td>{{ delivery.store.name }}</td>
+                <td>{{ delivery.product.name }}</td>
+                <td>{{ delivery.quantity }}</td>
+                <td>{{ delivery.delivery_date }}</td>
+                <td>
+                    <a href="{% url 'approve_delivery' delivery.id %}" class="btn btn-success">
+                        Aprobar
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+
+
+    </div>
+{% endblock %}

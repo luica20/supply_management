@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container pt-2">
+        <h2>Carrito de Compras</h2>
+
+        {% if cart and cart.items.all %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Tienda</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-end">Subtotal</th>
+                    <th class="text-end">Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart.items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.store.name }}</td>
+                        <td class="text-center">{{ item.quantity }}</td>
+                        <td class="text-end">{{ item.total_price }}</td>
+                        <td class="text-end">
+                            <button class="btn btn-danger remove-from-cart" data-id="{{ item.id }}">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            <tfooter>
+                <tr>
+                    <th colspan="3" class="text-end">
+                        Total
+                    </th>
+                    <th class="text-end">
+                        {{ total_cart }}
+                    </th>
+                    <th>&nbsp;</th>
+                </tr>
+            </tfooter>
+            </table>
+            <div class="row">
+            <div class="col-sm-6">
+                 <a href="{% url 'confirm_purchase' %}" class="btn btn-success">Confirmar Compra</a>
+            </div>
+            <div class="col-sm-6 text-end">
+                <a href="{% url 'store_products' store_id %}" class="btn btn-secondary">← Volver a la tienda</a>
+            </div>
+            </div>
+
+
+        {% else %}
+            <p>Tu carrito está vacío.</p>
+            <a href="{% url 'store' %}" class="btn btn-secondary">← Volver a la tienda</a>
+        {% endif %}
+
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".remove-from-cart").click(function () {
+                var cartItemId = $(this).data("id");
+
+                $.ajax({
+                    url: "/remove-from-cart/" + cartItemId + "/",
+                    type: "GET",
+                    success: function (response) {
+                        $("#cart-count").text(response.count_cart);
+                        location.reload();  // Recargar la página para actualizar el carrito
+                    },
+                    error: function () {
+                        alert("Hubo un error al remover el producto del carrito.");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

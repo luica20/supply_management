@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center w-100">Panel Proveedor</h2>
+        <div class="card col col-sm-4" >
+            <div class="card-body">
+                <h3>Registrar nueva entrega</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Registrar entrega</button>
+                </form>
+            </div>
+        </div>
+    <hr class="mt-5 mb-5" />
+        <h3>Entregas realizadas</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="col-sm-2">Tienda</th>
+                <th>Producto</th>
+                <th class="col-sm-2 text-end">Cantidad</th>
+                <th class="col-sm-2 text-center">Fecha</th>
+                <th class="col-sm-2 text-end">Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for delivery in deliveries %}
+                <tr>
+                    <td>{{ delivery.store.name }}</td>
+                    <td>{{ delivery.product.name }}</td>
+                    <td class="text-end">{{ delivery.quantity }}</td>
+                    <td class="text-end">{{ delivery.delivery_date }}</td>
+                    <td class="text-end">
+                        {% if delivery.approved %}
+                            ✅ Aprobado
+                        {% else %}
+                            ❌ Pendiente
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container pt-2">
+        <h2>Purchase History</h2>
+        {% if purchases %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="col-sm-2">Store</th>
+                    <th class="col-sm-2">Date</th>
+                    <th class="col-sm-1 text-end">Total</th>
+                    <th class="text-center">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td class="col-sm-2">{{ purchase.store.name }}</td>
+                        <td class="col-sm-2">{{ purchase.date }}</td>
+                        <td class="col-sm-1 text-end">{{ purchase.total_amount }}</td>
+                        <td>
+                            <ul>
+                                {% for detail in purchase.details.all %}
+                                    <li>{{ detail.quantity }} x {{ detail.product.name }} ({{ detail.unit_price }}
+                                        c/u)
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have not made any purchases yet.</p>
+        {% endif %}
+
+        <a href="{% url 'store' %}" class="btn btn-secondary">← Returns Stores</a>
+    </div>
+
+
+{% endblock %}

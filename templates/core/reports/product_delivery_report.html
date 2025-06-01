@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container pt-2 text-center">
+        <h2 class="text-center">Reporte de Productos Entregados</h2>
+
+        <h3>Gráfico de Barras</h3>
+        <img src="data:image/png;base64,{{ bar_chart }}" class="img-fluid" alt="Gráfico de barras">
+
+        <hr />
+        
+        <h3>Gráfico de Pastel</h3>
+        <img src="data:image/png;base64,{{ pie_chart }}" class="img-fluid" alt="Gráfico de pastel">
+    </div>
+{% endblock %}

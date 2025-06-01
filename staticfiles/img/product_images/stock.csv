@@ -1,0 +1,11 @@
+store_name,product_name,quantity
+Tienda Centro,Mouse óptico,50
+Tienda Centro,Teclado mecánico RGB,30
+Tienda Norte,Monitor LED 24",25
+Tienda Norte,Disco SSD 1TB,40
+Tienda Sur,Memoria RAM 16GB DDR4,35
+Tienda Sur,Tarjeta gráfica RTX 3060,20
+Tienda Este,Fuente de poder 750W,15
+Tienda Este,Cámara Web HD,45
+Tienda Oeste,Audífonos con micrófono,60
+Tienda Oeste,Router WiFi 6,30

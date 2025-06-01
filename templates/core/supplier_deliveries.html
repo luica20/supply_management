@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Número de rastreo</th>
+                <th>Proveedor</th>
+                <th>Tienda</th>
+                <th>Estado</th>
+                <th>Fecha de entrega</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for delivery in deliveries %}
+                <tr>
+                    <td>{{ delivery.tracking_number }}</td>
+                    <td>{{ delivery.supplier.name }}</td>
+                    <td>{{ delivery.store.name }}</td>
+                    <td>{{ delivery.status }}</td>
+                    <td>{{ delivery.delivery_date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
