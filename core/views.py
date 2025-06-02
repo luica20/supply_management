@@ -181,9 +181,23 @@ def load_products(request):
 @login_required
 @permission_required('core.full_access', raise_exception=True)
 def store_dashboard(request):
+    store_id = request.GET.get('store')  # Capturar filtro de tienda
+    product_id = request.GET.get('product')  # Capturar filtro de producto
+
+    stock_entries = Stock.objects.all().order_by('product__name')
+    if store_id:
+        stock_entries = stock_entries.filter(store_id=store_id)
+    if product_id:
+        stock_entries = stock_entries.filter(product_id=product_id)
+
     stores = Store.objects.all()
-    stock_entries = Stock.objects.all()
-    return render(request, 'core/dashboard/store_dashboard.html', {'stores': stores, 'stock_entries': stock_entries})
+    products = Product.objects.all()
+
+    return render(request, 'core/dashboard/store_dashboard.html', {
+        'stock_entries': stock_entries,
+        "stores": stores,
+        "products": products
+    })
 
 
 @login_required

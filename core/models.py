@@ -61,30 +61,19 @@ class Store(models.Model):
         return f"{self.name} ({self.street})"
 
 
-class SupplierStoreRelation(models.Model):
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
-    start_date = models.DateField(auto_now_add=True)
-    contract_terms = models.TextField(blank=True, null=True)
-
-    class Meta:
-        unique_together = ('supplier', 'store')  # Evita duplicados de relación
-
-    def __str__(self):
-        return f"{self.supplier.name} - {self.store.name}"
-
-
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    provision = models.IntegerField(default=100)
+    iva = models.DecimalField(max_digits=10, decimal_places=2, default=21)
     image = models.ImageField(
         upload_to="img/product_images/",
         blank=True,
         null=True,
-        # default="img/sin-imagen.jpg",
         validators=[FileExtensionValidator(["jpg", "png", "jpeg"])]
-    )  # 🔹 Agregar campo de imagen
+    )
 
     def save(self, *args, **kwargs):
         """Redimensiona la imagen antes de guardarla"""
@@ -120,6 +109,11 @@ class Stock(models.Model):
             quantity=amount,
             movement_type=movement_type
         )
+
+    def is_low_stock(self):
+        """Verifica si el stock está por debajo del 90% de la provisión"""
+        threshold = self.product.provision * 0.9
+        return self.quantity < threshold
 
     def __str__(self):
         return f"{self.product.name} - {self.store.name}: {self.quantity} unidades"

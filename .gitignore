@@ -1,2 +1,6 @@
 /.venv/
 /.idea/
+/core/__pycache__/
+/core/migrations/__pycache__/
+*.pyc
+__pycache__/

@@ -5,14 +5,38 @@
         <table class="table">
             <thead>
             <tr>
-                <td colspan="3" class="text-end">
+                <td colspan="3">
+                    <form method="GET">
+                        <label for="product">Product:</label>
+                        <select name="product" id="product" style="padding: 7px; padding-top: 1px">
+                            <option value="">All Products</option>
+                            {% for product in products %}
+                                <option value="{{ product.id }}">{{ product.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="store">Store:</label>
+                        <select name="store" id="store" style="padding: 7px; padding-top: 1px">
+                            <option value="">All Stores</option>
+                            {% for store in stores %}
+                                <option value="{{ store.id }}">{{ store.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-search"></i>&nbsp;Filter</button>
+                    </form>
+                </td>
+                <td class="text-end">
                     <a href="{% url 'transfer_product' %}" class="btn btn-primary">Transfer Products</a>
+                </td>
+                <td class="text-end">
+                    <a href="{% url 'transfer_product' %}" class="btn btn-info">Request Products</a>
                 </td>
             </tr>
             <tr>
                 <th>Product</th>
                 <th>Store</th>
-                <th>Stock</th>
+                <th class="text-end">Stock</th>
+                <th class="text-end">Limit</th>
+                <th class="text-end">Provisioning Needed</th>
             </tr>
             </thead>
             <tbody>
@@ -20,7 +44,15 @@
                 <tr>
                     <td>{{ stock_entry.product.name }}</td>
                     <td>{{ stock_entry.store.name }}</td>
-                    <td>{{ stock_entry.quantity }}</td>
+                    <td class="text-end">{{ stock_entry.quantity }}</td>
+                    <td class="text-end">{{ stock_entry.product.provision }}</td>
+                    <td class="text-end">
+                        {% if stock_entry.is_low_stock %}
+                            <span class="text-danger">⚠️ Needs restocking</span>
+                        {% else %}
+                            ✅ Sufficient stock
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

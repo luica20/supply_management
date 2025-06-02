@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Customer, Supplier, Store, Product, Purchase, PurchaseDetail, SupplierDelivery, Stock, \
-    StockMovement, Cart, SupplierStoreRelation
+    StockMovement, Cart
 
 
 # @admin.register(Customer)
@@ -32,5 +32,4 @@ admin.site.register(SupplierDelivery)
 admin.site.register(Stock)
 admin.site.register(StockMovement)
 admin.site.register(Cart)
-admin.site.register(SupplierStoreRelation)
 
